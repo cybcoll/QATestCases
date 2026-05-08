@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Test Case Manager | QA Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, 'Segoe UI', 'Inter', 'SF Pro Text', sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            padding: 2rem 1.5rem;
+            color: #0a0c10;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* card style */
+        .card {
+            background: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.03), 0 2px 6px rgba(0,0,0,0.05);
+            padding: 1.5rem 1.8rem;
+            margin-bottom: 2rem;
+            transition: all 0.2s;
+            border: 1px solid #e2e8f0;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #1e293b, #2d3a4f);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.25rem;
+        }
+
+        .sub {
+            color: #475569;
+            font-size: 0.9rem;
+            margin-bottom: 1.2rem;
+            border-left: 3px solid #3b82f6;
+            padding-left: 0.8rem;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0 0 1rem 0;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        h2 i {
+            font-weight: 400;
+            color: #3b82f6;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #334155;
+        }
+
+        input, select, textarea {
+            padding: 0.7rem 0.9rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.8rem;
+            font-size: 0.9rem;
+            background: #fff;
+            transition: 0.2s;
+            outline: none;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .env-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1.2rem;
+        }
+
+        button {
+            background: #f1f5f9;
+            border: none;
+            padding: 0.6rem 1.4rem;
+            border-radius: 2rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.85rem;
+            border: 1px solid #cbd5e1;
+        }
+
+        button.primary {
+            background: #1e293b;
+            color: white;
+            border: none;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        button.primary:hover {
+            background: #0f172a;
+            transform: translateY(-1px);
+        }
+
+        button.danger {
+            background: #fee2e2;
+            color: #b91c1c;
+            border-color: #fecaca;
+        }
+
+        button.danger:hover {
+            background: #fecaca;
+        }
+
+        button.secondary {
+            background: white;
+            border: 1px solid #cbd5e1;
+        }
+
+        button.secondary:hover {
+            background: #f8fafc;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 1.2rem;
+            border: 1px solid #e2e8f0;
+            background: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+
+        th {
+            background: #f8fafc;
+            padding: 0.9rem 0.6rem;
+            text-align: left;
+            font-weight: 600;
+            color: #1e293b;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            background-color: #f8fafc;
+        }
+
+        td {
+            padding: 0.8rem 0.6rem;
+            border-bottom: 1px solid #edf2f7;
+            vertical-align: top;
+            word-break: break-word;
+        }
+
+        .badge {
+            background: #eef2ff;
+            color: #1e40af;
+            border-radius: 20px;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .tag {
+            background: #e6f0ff;
+            border-radius: 12px;
+            padding: 0.2rem 0.5rem;
+            display: inline-block;
+            font-size: 0.7rem;
+        }
+
+        .action-icons {
+            display: flex;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .action-icons button {
+            padding: 0.2rem 0.7rem;
+            font-size: 0.7rem;
+            border-radius: 30px;
+        }
+
+        .link-style {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.75rem;
+        }
+
+        .link-style:hover {
+            text-decoration: underline;
+        }
+
+        .empty-row td {
+            text-align: center;
+            padding: 2rem;
+            color: #5b6e8c;
+        }
+
+        .stat-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0.5rem;
+            }
+            .card:first-child, .btn-group, .stat-bar .action-buttons, .action-icons button, .edit-btn, .del-btn {
+                display: none !important;
+            }
+            .table-wrapper {
+                overflow: visible;
+            }
+            table {
+                font-size: 9pt;
+            }
+            th, td {
+                border: 1px solid #ccc;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h1>📋 Test Case Workspace</h1>
+        <div class="sub">Create, manage & export test cases — attachment links, comment links, full traceability</div>
+        
+        <!-- INPUT FORM -->
+        <form id="testCaseForm">
+            <div class="form-grid">
+                <div class="field-group"><label>Test Case ID *</label><input type="text" id="tcId" placeholder="TC-001" required></div>
+                <div class="field-group"><label>Application Name</label><input type="text" id="appName" placeholder="e.g., CRM Portal"></div>
+                <div class="field-group"><label>Case Title *</label><input type="text" id="caseTitle" placeholder="Short title" required></div>
+                <div class="field-group"><label>Type of Case</label>
+                    <select id="caseType"><option>bug</option><option>design</option><option>maintenance</option><option>development</option><option>testing</option><option>other</option></select>
+                </div>
+                <div class="field-group"><label>Priority</label>
+                    <select id="priority"><option>blocker</option><option>critical</option><option>major</option><option>minor</option><option>trivial</option></select>
+                </div>
+                <div class="field-group"><label>Label / Tags</label><input type="text" id="tags" placeholder="regression, smoke, v2"></div>
+                
+                <!-- Test environment group -->
+                <div class="full-width"><label>🌐 Test Environment</label>
+                    <div class="env-row">
+                        <input type="text" id="os" placeholder="OS (Windows/iOS/Android...)">
+                        <input type="text" id="osVersion" placeholder="Version (11, 15, 14)">
+                        <input type="text" id="deviceModel" placeholder="Device model (iPhone 14, Pixel 7)">
+                        <input type="text" id="deviceName" placeholder="Device name (QA-Lab-01)">
+                    </div>
+                </div>
+
+                <div class="full-width"><label>📝 Test Case Description</label><textarea id="description" rows="2" placeholder="Describe test objective..."></textarea></div>
+                <div class="full-width"><label>📌 Steps to Follow</label><textarea id="steps" rows="2" placeholder="1. Open app\n2. Click login..."></textarea></div>
+                <div class="full-width"><label>✨ Expected Results</label><textarea id="expectedResult" rows="2" placeholder="Expected behavior..."></textarea></div>
+                <div class="full-width"><label>🔍 Actual Result</label><textarea id="actualResult" rows="2" placeholder="Actual outcome..."></textarea></div>
+
+                <div class="field-group"><label>Status</label>
+                    <select id="status"><option>unassigned</option><option>assigned</option><option>in-progress</option></select>
+                </div>
+                
+                <div class="field-group"><label>📎 Attachment (file) — link to upload</label><input type="file" id="attachmentFile" accept="image/*,application/pdf,.txt,.csv, .docx"></div>
+                <div class="field-group"><label>💬 Comment Text</label><textarea id="commentText" rows="1" placeholder="Internal comments..."></textarea></div>
+                <div class="field-group"><label>🔗 Link for Comment (URL)</label><input type="url" id="commentLink" placeholder="https://jira.com/comment/123 or internal link"></div>
+            </div>
+            <div class="btn-group">
+                <button type="button" id="resetFormBtn" class="secondary">Clear fields</button>
+                <button type="submit" id="submitBtn" class="primary">➕ Add / Update Test Case</button>
+            </div>
+            <input type="hidden" id="editIndex" value="-1">
+        </form>
+    </div>
+
+    <!-- Table & export bar -->
+    <div class="card">
+        <div class="stat-bar">
+            <h2><i>📊</i> Test Case Repository</h2>
+            <div class="action-buttons" style="display: flex; gap: 0.6rem;">
+                <button id="exportCsvBtn" class="secondary">📄 CSV</button>
+                <button id="exportJiraBtn" class="secondary">📎 Jira (Markup)</button>
+                <button id="exportPdfBtn" class="secondary">🖨️ PDF</button>
+                <button id="clearAllBtn" class="danger">🗑️ Clear All</button>
+            </div>
+        </div>
+        <div class="table-wrapper">
+            <table id="testCaseTable">
+                <thead>
+                    <tr><th>ID</th><th>App</th><th>Title</th><th>Type</th><th>Priority</th><th>Tags</th><th>Test Env</th><th>Description</th><th>Steps</th><th>Expected</th><th>Actual</th><th>Status</th><th>Attachment</th><th>Comment / Link</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr class="empty-row"><td colspan="15">No test cases added. Fill the form and click Add.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ---------- DATA STORAGE ----------
+    let testCases = [];   // each object will have all fields, plus attachmentBase64
+
+    // Load from localStorage
+    function loadData() {
+        const stored = localStorage.getItem("testCasesRepo");
+        if(stored) {
+            testCases = JSON.parse(stored);
+            // regenerate attachment download links (base64 already stored)
+            renderTable();
+        } else {
+            // add one demo example for better preview
+            testCases = [];
+            renderTable();
+        }
+    }
+
+    function saveToLocal() {
+        localStorage.setItem("testCasesRepo", JSON.stringify(testCases));
+    }
+
+    // Helper: convert file to base64
+    function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+            if (!file) resolve(null);
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+    }
+
+    // Get form data as object (without attachment promise)
+    function getFormDataObject() {
+        const osVal = document.getElementById("os").value.trim();
+        const versionVal = document.getElementById("osVersion").value.trim();
+        const deviceModelVal = document.getElementById("deviceModel").value.trim();
+        const deviceNameVal = document.getElementById("deviceName").value.trim();
+        const envString = `OS: ${osVal || '—'} | v${versionVal || '—'} | ${deviceModelVal || '—'} | ${deviceNameVal || '—'}`;
+        
+        return {
+            tcId: document.getElementById("tcId").value.trim(),
+            appName: document.getElementById("appName").value.trim(),
+            caseTitle: document.getElementById("caseTitle").value.trim(),
+            caseType: document.getElementById("caseType").value,
+            priority: document.getElementById("priority").value,
+            tags: document.getElementById("tags").value.trim(),
+            testEnvRaw: { os: osVal, version: versionVal, deviceModel: deviceModelVal, deviceName: deviceNameVal },
+            testEnvDisplay: envString,
+            description: document.getElementById("description").value.trim(),
+            steps: document.getElementById("steps").value.trim(),
+            expectedResult: document.getElementById("expectedResult").value.trim(),
+            actualResult: document.getElementById("actualResult").value.trim(),
+            status: document.getElementById("status").value,
+            commentText: document.getElementById("commentText").value.trim(),
+            commentLink: document.getElementById("commentLink").value.trim(),
+            attachmentName: null,
+            attachmentBase64: null
+        };
+    }
+
+    // reset form fields
+    function resetFormFields() {
+        document.getElementById("tcId").value = "";
+        document.getElementById("appName").value = "";
+        document.getElementById("caseTitle").value = "";
+        document.getElementById("caseType").value = "bug";
+        document.getElementById("priority").value = "major";
+        document.getElementById("tags").value = "";
+        document.getElementById("os").value = "";
+        document.getElementById("osVersion").value = "";
+        document.getElementById("deviceModel").value = "";
+        document.getElementById("deviceName").value = "";
+        document.getElementById("description").value = "";
+        document.getElementById("steps").value = "";
+        document.getElementById("expectedResult").value = "";
+        document.getElementById("actualResult").value = "";
+        document.getElementById("status").value = "unassigned";
+        document.getElementById("commentText").value = "";
+        document.getElementById("commentLink").value = "";
+        document.getElementById("attachmentFile").value = "";
+        document.getElementById("editIndex").value = "-1";
+        const submitBtn = document.getElementById("submitBtn");
+        submitBtn.innerText = "➕ Add / Update Test Case";
+    }
+
+    // fill form when editing
+    function fillFormForEdit(index) {
+        const tc = testCases[index];
+        if(!tc) return;
+        document.getElementById("tcId").value = tc.tcId;
+        document.getElementById("appName").value = tc.appName;
+        document.getElementById("caseTitle").value = tc.caseTitle;
+        document.getElementById("caseType").value = tc.caseType;
+        document.getElementById("priority").value = tc.priority;
+        document.getElementById("tags").value = tc.tags;
+        document.getElementById("os").value = tc.testEnvRaw?.os || "";
+        document.getElementById("osVersion").value = tc.testEnvRaw?.version || "";
+        document.getElementById("deviceModel").value = tc.testEnvRaw?.deviceModel || "";
+        document.getElementById("deviceName").value = tc.testEnvRaw?.deviceName || "";
+        document.getElementById("description").value = tc.description;
+        document.getElementById("steps").value = tc.steps;
+        document.getElementById("expectedResult").value = tc.expectedResult;
+        document.getElementById("actualResult").value = tc.actualResult;
+        document.getElementById("status").value = tc.status;
+        document.getElementById("commentText").value = tc.commentText || "";
+        document.getElementById("commentLink").value = tc.commentLink || "";
+        document.getElementById("attachmentFile").value = "";
+        document.getElementById("editIndex").value = index;
+        const submitBtn = document.getElementById("submitBtn");
+        submitBtn.innerText = "✏️ Update Test Case";
+    }
+
+    // attach event for edit
+    function editTestCase(index) {
+        fillFormForEdit(index);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function deleteTestCase(index) {
+        if(confirm(`Delete test case "${testCases[index].caseTitle}"?`)) {
+            testCases.splice(index,1);
+            saveToLocal();
+            renderTable();
+            if(document.getElementById("editIndex").value != "-1") resetFormFields();
+        }
+    }
+
+    // render table
+    function renderTable() {
+        const tbody = document.getElementById("tableBody");
+        if(!testCases.length) {
+            tbody.innerHTML = `<tr class="empty-row"><td colspan="15">✨ No test cases yet. Create your first test case above.</td></tr>`;
+            return;
+        }
+        tbody.innerHTML = "";
+        testCases.forEach((tc, idx) => {
+            const row = tbody.insertRow();
+            // attachment link render
+            let attachHtml = `<span class="badge">No file</span>`;
+            if(tc.attachmentBase64 && tc.attachmentName) {
+                attachHtml = `<a href="${tc.attachmentBase64}" download="${tc.attachmentName}" target="_blank" class="link-style">📎 ${tc.attachmentName}</a>`;
+            } else if(tc.attachmentName && !tc.attachmentBase64) {
+                attachHtml = `<span class="badge">broken</span>`;
+            } else {
+                attachHtml = `<span class="badge">—</span>`;
+            }
+            
+            // comment + link column
+            let commentHtml = `<div><i>💬</i> ${escapeHtml(tc.commentText?.substring(0, 50) || '—')}${tc.commentText?.length > 50 ? '…' : ''}</div>`;
+            if(tc.commentLink && tc.commentLink.trim() !== "") {
+                commentHtml += `<div><a href="${escapeHtml(tc.commentLink)}" target="_blank" class="link-style">🔗 comment link</a></div>`;
+            } else {
+                commentHtml += `<div><span class="badge">no link</span></div>`;
+            }
+            
+            const envDisplay = tc.testEnvDisplay || (tc.testEnvRaw ? `OS:${tc.testEnvRaw.os||'-'} v${tc.testEnvRaw.version||'-'} ${tc.testEnvRaw.deviceModel||'-'}` : '—');
+            
+            row.innerHTML = `
+                <td style="font-weight:500;">${escapeHtml(tc.tcId)}</td>
+                <td>${escapeHtml(tc.appName || '—')}</td>
+                <td><strong>${escapeHtml(tc.caseTitle)}</strong></td>
+                <td><span class="badge">${escapeHtml(tc.caseType)}</span></td>
+                <td><span class="tag">${escapeHtml(tc.priority)}</span></td>
+                <td>${escapeHtml(tc.tags || '—')}</td>
+                <td style="max-width:160px; font-size:0.75rem;">${escapeHtml(envDisplay)}</td>
+                <td style="max-width:180px;">${escapeHtml(tc.description?.substring(0, 60) || '—')}${tc.description?.length > 60 ? '…' : ''}</td>
+                <td style="max-width:160px;">${escapeHtml(tc.steps?.substring(0, 55) || '—')}</td>
+                <td style="max-width:160px;">${escapeHtml(tc.expectedResult?.substring(0, 55) || '—')}</td>
+                <td style="max-width:150px;">${escapeHtml(tc.actualResult?.substring(0, 55) || '—')}</td>
+                <td><span class="badge" style="background:#e2e3e5;">${escapeHtml(tc.status)}</span></td>
+                <td style="min-width:90px;">${attachHtml}</td>
+                <td style="min-width:140px;">${commentHtml}</td>
+                <td class="action-icons"><button class="secondary edit-btn" data-idx="${idx}">✏️</button> <button class="danger del-btn" data-idx="${idx}">🗑️</button></td>
+            `;
+        });
+        // attach event listeners to edit/delete buttons
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(btn.getAttribute('data-idx'));
+                editTestCase(idx);
+            });
+        });
+        document.querySelectorAll('.del-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(btn.getAttribute('data-idx'));
+                deleteTestCase(idx);
+            });
+        });
+    }
+
+    // escape HTML
+    function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m) { if(m === '&') return '&amp;'; if(m === '<') return '&lt;'; if(m === '>') return '&gt;'; return m;}); }
+    
+    // Handle form submit (add or update)
+    async function handleSubmit(e) {
+        e.preventDefault();
+        const editIdx = parseInt(document.getElementById("editIndex").value);
+        const formObj = getFormDataObject();
+        
+        // validation
+        if(!formObj.tcId || !formObj.caseTitle) {
+            alert("Test Case ID and Case Title are required.");
+            return;
+        }
+        // check duplicate ID for new case (exclude current edit)
+        if(editIdx === -1 && testCases.some(tc => tc.tcId === formObj.tcId)) {
+            alert(`Test case ID "${formObj.tcId}" already exists. Use unique ID.`);
+            return;
+        }
+        
+        let attachmentBase64 = null;
+        let attachmentName = null;
+        const fileInput = document.getElementById("attachmentFile");
+        if(fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            attachmentName = file.name;
+            try {
+                attachmentBase64 = await fileToBase64(file);
+            } catch(err) { console.warn("file error"); }
+        } else if(editIdx !== -1 && testCases[editIdx] && testCases[editIdx].attachmentBase64) {
+            // keep existing attachment if not changed
+            attachmentBase64 = testCases[editIdx].attachmentBase64;
+            attachmentName = testCases[editIdx].attachmentName;
+        }
+        
+        const newTestCase = {
+            tcId: formObj.tcId,
+            appName: formObj.appName,
+            caseTitle: formObj.caseTitle,
+            caseType: formObj.caseType,
+            priority: formObj.priority,
+            tags: formObj.tags,
+            testEnvRaw: formObj.testEnvRaw,
+            testEnvDisplay: formObj.testEnvDisplay,
+            description: formObj.description,
+            steps: formObj.steps,
+            expectedResult: formObj.expectedResult,
+            actualResult: formObj.actualResult,
+            status: formObj.status,
+            commentText: formObj.commentText,
+            commentLink: formObj.commentLink,
+            attachmentName: attachmentName,
+            attachmentBase64: attachmentBase64
+        };
+        
+        if(editIdx !== -1) {
+            testCases[editIdx] = newTestCase;
+        } else {
+            testCases.push(newTestCase);
+        }
+        saveToLocal();
+        renderTable();
+        resetFormFields();
+    }
+    
+    // export functions
+    function exportToCSV() {
+        if(testCases.length === 0) { alert("No test cases to export."); return; }
+        const headers = ["TestCaseID","AppName","Title","Type","Priority","Tags","TestEnvironment","Description","Steps","ExpectedResult","ActualResult","Status","CommentText","CommentLink","AttachmentFileName"];
+        const rows = testCases.map(tc => [
+            `"${(tc.tcId||'').replace(/"/g, '""')}"`,
+            `"${(tc.appName||'').replace(/"/g, '""')}"`,
+            `"${(tc.caseTitle||'').replace(/"/g, '""')}"`,
+            `"${tc.caseType}"`,
+            `"${tc.priority}"`,
+            `"${(tc.tags||'').replace(/"/g, '""')}"`,
+            `"${(tc.testEnvDisplay||'').replace(/"/g, '""')}"`,
+            `"${(tc.description||'').replace(/"/g, '""')}"`,
+            `"${(tc.steps||'').replace(/"/g, '""')}"`,
+            `"${(tc.expectedResult||'').replace(/"/g, '""')}"`,
+            `"${(tc.actualResult||'').replace(/"/g, '""')}"`,
+            `"${tc.status}"`,
+            `"${(tc.commentText||'').replace(/"/g, '""')}"`,
+            `"${(tc.commentLink||'').replace(/"/g, '""')}"`,
+            `"${(tc.attachmentName||'').replace(/"/g, '""')}"`
+        ].join(","));
+        const csvContent = [headers.join(","), ...rows].join("\n");
+        const blob = new Blob(["\uFEFF" + csvContent], {type: "text/csv;charset=utf-8;"});
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.href = url;
+        link.setAttribute("download","testcases_export.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }
+    
+    function exportToJira() {
+        if(testCases.length === 0) { alert("No test cases"); return; }
+        let jiraTable = "|| TC ID || App || Title || Type || Priority || Tags || Env || Description || Steps || Expected || Actual || Status || Comment || Comment Link || Attachment ||\n";
+        testCases.forEach(tc => {
+            const row = `| ${(tc.tcId||'')} | ${(tc.appName||'')} | ${(tc.caseTitle||'')} | ${tc.caseType} | ${tc.priority} | ${tc.tags||''} | ${(tc.testEnvDisplay||'').substring(0,60)} | ${(tc.description||'').substring(0,80)} | ${(tc.steps||'').substring(0,80)} | ${(tc.expectedResult||'').substring(0,80)} | ${(tc.actualResult||'').substring(0,80)} | ${tc.status} | ${tc.commentText||''} | ${tc.commentLink||''} | ${tc.attachmentName||''} |`;
+            jiraTable += row + "\n";
+        });
+        const blob = new Blob([jiraTable], {type: "text/plain"});
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "jira_export.txt";
+        a.click();
+        URL.revokeObjectURL(blob);
+    }
+    
+    function exportToPDF() {
+        window.print();
+    }
+    
+    function clearAllTestCases() {
+        if(confirm("⚠️ Delete ALL test cases permanently?")) {
+            testCases = [];
+            saveToLocal();
+            renderTable();
+            resetFormFields();
+        }
+    }
+    
+    // event listeners & init
+    document.getElementById("testCaseForm").addEventListener("submit", handleSubmit);
+    document.getElementById("resetFormBtn").addEventListener("click", resetFormFields);
+    document.getElementById("exportCsvBtn").addEventListener("click", exportToCSV);
+    document.getElementById("exportJiraBtn").addEventListener("click", exportToJira);
+    document.getElementById("exportPdfBtn").addEventListener("click", exportToPDF);
+    document.getElementById("clearAllBtn").addEventListener("click", clearAllTestCases);
+    
+    loadData();
+    // sync extra: make sure if editIndex stays -1 on reset
+    window.resetFormFields = resetFormFields;
+</script>
+</body>
+</html>
